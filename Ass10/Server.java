@@ -25,10 +25,12 @@ public class Server{
             System.err.printf("SERVER: Errore nella creazione dell'indirizzo IP - %s\n", e.getMessage());
             return;
         }
+        else
+            System.out.printf("SERVER: L'indirizzo %s è un Multicast Address\n", address);
         
         try(
             // Instauro la connessione UDP
-            DatagramSocket socket = new DatagramSocket(port);
+            DatagramSocket socket = new DatagramSocket();
         ){
             while ( Thread.currentThread().isInterrupted() ){
 
@@ -41,6 +43,7 @@ public class Server{
                 DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
 
                 // Invio il pacchetto
+                System.out.printf("SERVER: Invio %s\n", format.format(date) );
                 socket.send(packet);
 
                 // Attendo un intervallo di tempo periodico tra un invio e l'altro
